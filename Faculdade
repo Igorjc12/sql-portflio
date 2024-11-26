@@ -1,0 +1,394 @@
+show databases;
+
+create database db_faculdade;
+
+use db_faculdade;
+
+show tables;
+
+create table tbl_aluno (
+id int not null primary key auto_increment,
+nome varchar(100) not null,
+rg varchar(15) not null unique,
+cpf varchar (18) not null unique,
+email varchar(255) not null unique,
+telefone varchar(15) not null,
+unique index(id)
+);
+
+create table tbl_endereco (
+id int not null primary key auto_increment,
+longadouro varchar(45) not null,
+cep varchar(45) not null,
+bairro varchar(45) not null,
+cidade varchar(45) not null,
+
+id_aluno int not null,
+constraint FK_id_aluno_endereco
+foreign key (id_aluno)
+references tbl_aluno(id),
+
+unique index(id)
+);
+
+create table tbl_professor (
+id int not null primary key auto_increment,
+nome varchar(100) not null,
+rg varchar(15) not null unique,
+cpf varchar (18) not null unique,
+titulacao varchar(45) not null,
+
+unique index(id)
+);
+
+create table tbl_telefone_professor(
+id int not null primary key auto_increment,
+numero varchar(45) not null,
+
+id_professor int not null,
+constraint FK_id_professor_telefone_professor
+foreign key (id_professor)
+references tbl_professor(id),
+
+unique index(id)
+);
+
+create table tbl_email_professor (
+id int not null primary key auto_increment,
+email varchar(255) not null unique,
+
+id_professor int not null,
+constraint FK_id_professor_email_professor
+foreign key (id_professor)
+references tbl_professor(id),
+
+unique index(id)
+);
+
+create table tbl_endereco_professor (
+id int not null primary key auto_increment,
+longadouro varchar(45) not null,
+cep varchar (45) not null,
+bairro varchar (45) not null,
+cidade varchar (45) not null,
+
+id_professor int not null,
+constraint FK_id_professor_endereco_professor
+foreign key (id_professor)
+references tbl_professor(id),
+
+unique index(id)
+);
+
+create table tbl_curso (
+id int not null primary key auto_increment,
+semestre varchar(45) not null,
+materia varchar(45) not null,
+turma varchar(45) not null,
+ano varchar(45) not null,
+
+id_professor int not null,
+constraint FK_id_professor_curso
+foreign key (id_professor)
+references tbl_professor(id),
+
+id_aluno int not null,
+constraint FK_id_aluno_curso
+foreign key (id_aluno)
+references tbl_aluno(id),
+
+unique index(id)
+);
+
+create table tbl_biblioteca (
+id int not null primary key auto_increment,
+genero varchar(100) not null,
+autor varchar(100) not null,
+didatico varchar(100) not null,
+
+unique index (id)
+);
+
+create table tbl_notas (
+id int not null primary key auto_increment,
+alta decimal (10,2) not null,
+media decimal (5,2) not null,
+baixa decimal (5,2) not null,
+
+id_aluno int not null,
+constraint FK_id_aluno_notas
+foreign key (id_aluno)
+references tbl_aluno(id),
+
+unique index (id)
+);
+
+create table tbl_gestao (
+id int not null primary key auto_increment,
+coordenador varchar(45) not null,
+reitor varchar(45) not null,
+diretor varchar(45) not null,
+
+unique index (id)
+);
+
+create table tbl_notas_gestao (
+id int not null primary key auto_increment,
+
+id_notas int not null,
+constraint FK_id_notas_notas_gestao
+foreign key (id_notas)
+references tbl_notas(id),
+
+id_gestao int not null,
+constraint FK_id_gestao_notas_gestao
+foreign key (id_gestao)
+references tbl_gestao(id),
+
+unique index(id)
+);
+
+insert into tbl_aluno (nome,
+						rg,
+                        cpf,
+                        email,
+                        telefone)
+                        values ( 'João silva',
+                        '143.768.098-8',
+                        '435.876.905-54',
+                        'joaosv@gmail.com',
+                        '(11)9876234234');
+                        
+
+insert into tbl_aluno (nome,
+						rg,
+                        cpf,
+                        email,
+                        telefone)
+                        values ( 'Maria elena',
+                        '789.748.898-0',
+                        '474.076.005-14',
+                        'mariahele@hotmail.com',
+                        '(11)989541546');
+					
+                    
+insert into tbl_aluno (nome,
+						rg,
+                        cpf,
+                        email,
+                        telefone)
+                        values ( 'Ana julia',
+                        '111.778.099-1',
+                        '488.899.400-78',
+                        'juliaana@gmail.com',
+                        '(11)977884456');
+                        
+                        
+insert into tbl_aluno (nome,
+						rg,
+                        cpf,
+                        email,
+                        telefone)
+                        values ( 'Marcos andre',
+                        '963.025.078-0',
+                        '208.216.977-22',
+                        'marcosandre@gmail.com',
+                        '(11)9878459621');
+                        
+insert into tbl_professor ( nome,
+							rg,
+                            cpf,
+                            titulacao)
+                            values ( 'Ana maria',
+									'234.654.876-90',
+                                    '125.654,456-7',
+                                    'Doutora');
+                                    
+insert into tbl_professor ( nome,
+							rg,
+                            cpf,
+                            titulacao)
+                            values ( 'Marta joana',
+									'789.475.285-00',
+                                    '986.485.758-89',
+                                    'Mestra');
+                                    
+insert into tbl_professor ( nome,
+							rg,
+                            cpf,
+                            titulacao)
+                            values ( 'Alan lak',
+									'987.001.277-80',
+                                    '789.685.4886-87',
+                                    'Doutor');
+                                    
+insert into tbl_professor ( nome,
+							rg,
+                            cpf,
+                            titulacao)
+                            values ( 'Klaven max',
+									'278.100.789-50',
+                                    '785.112.002-77',
+                                    'Mestre');
+                                    
+insert into tbl_endereco_professor ( longadouro,
+									cep,
+                                    bairro,
+                                    cidade,
+                                    id_professor)
+                                    values ( 'Avenida paulista',
+											'23451-876',
+                                            'Bela vista',
+                                            'São paulo',
+                                            1);
+                                            
+   insert into tbl_endereco_professor ( longadouro,
+									cep,
+                                    bairro,
+                                    cidade,
+                                    id_professor)
+                                    values ( 'Rua musa',
+											'78951-800',
+                                            'campinas',
+                                            'São paulo',
+                                            2);             
+                                            
+insert into tbl_endereco_professor ( longadouro,
+									cep,
+                                    bairro,
+                                    cidade,
+                                    id_professor)
+                                    values ( 'Avenida calica',
+											'00997-657',
+                                            'Vagem grande paulista',
+                                            'São paulo',
+                                            3);     
+                                            
+  insert into tbl_endereco_professor ( longadouro,
+									cep,
+                                    bairro,
+                                    cidade,
+                                    id_professor)
+                                    values ( 'Avenida 25 de março',
+											'78925-024',
+                                            'centro',
+                                            'São paulo',
+                                            4);    
+                                            
+                                            
+                                                     
+
+insert into tbl_endereco (longadouro,
+									cep,
+                                    bairro,
+                                    cidade,
+                                    id_aluno)
+                                    values ( 'Rua jambolão',
+											'78952-485',
+                                            'Parque viana',
+                                            'São paulo',
+                                            1); 
+                                            
+ insert into tbl_endereco (longadouro,
+									cep,
+                                    bairro,
+                                    cidade,
+                                    id_aluno)
+                                    values ( 'Rua talibia',
+											'7854656-125',
+                                            'Diadema',
+                                            'São paulo',
+                                            2);  
+                                            
+ insert into tbl_endereco (longadouro,
+									cep,
+                                    bairro,
+                                    cidade,
+                                    id_aluno)
+                                    values ( 'Rua oulga',
+											'064899-478',
+                                            'Jardim silveira',
+                                            'São paulo',
+                                            3);           
+                                            
+ insert into tbl_endereco (longadouro,
+									cep,
+                                    bairro,
+                                    cidade,
+                                    id_aluno)
+                                    values ( 'Avenida mario covas',
+											'789254-125',
+                                            'Osasco',
+                                            'São paulo',
+                                            4);                                            
+                                            
+insert into tbl_curso ( semestre,
+						materia,
+                        turma,
+                        ano,
+                        id_professor,
+                        id_aluno)
+                        values ( '2024/1',
+								'matematica',
+                                'Turma manhã',
+                                '2024',
+                                1,2);
+                                
+  insert into tbl_curso ( semestre,
+						materia,
+                        turma,
+                        ano,
+                        id_professor,
+                        id_aluno)
+                        values ( '2024/2',
+								'Medicina',
+                                'Turma noite',
+                                '2024',
+                                2,1);     
+                                
+insert into tbl_curso ( semestre,
+						materia,
+                        turma,
+                        ano,
+                        id_professor,
+                        id_aluno)
+                        values ( '2024/1',
+								'Educação fisica',
+                                'Turma manhã',
+                                '2024',
+                                3,4);     
+                                
+insert into tbl_curso ( semestre,
+						materia,
+                        turma,
+                        ano,
+                        id_professor,
+                        id_aluno)
+                        values ( '2024/2',
+								'T.I',
+                                'Turma noite',
+                                '2024',
+                                4,3);       
+    
+    
+    
+insert into tbl_notas (alta, media, baixa , id_aluno)
+values ('9.5', '6.5', 3.00, 1);
+
+insert into tbl_notas (alta, media, baixa , id_aluno)
+values ('8.5', '7.5', 4.50, 2);
+
+insert into tbl_notas (alta, media, baixa , id_aluno)
+values ('10.0', '8.5',6.00, 3);
+
+insert into tbl_notas (alta, media, baixa , id_aluno)
+values ('7.5', '5.5', '2.00', 4);
+
+insert into tbl_biblioteca ( genero,autor, didatico)
+values ('ficção cientifica','Isaac Arimov','ensino medio');
+
+insert into tbl_biblioteca ( genero,autor, didatico)
+values ('historia','Yuval Noah','ensino univesitario');
+
+insert into tbl_biblioteca ( genero,autor, didatico)
+values ('Literatura Clássica','Jane Austen','Ensino Médio');
